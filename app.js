@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const contactRouter     = require('./routes/contact');
 
-app.use('/', contactRouter);
+app.use('/api', contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
