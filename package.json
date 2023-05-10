@@ -1,0 +1,26 @@
+{
+  "name": "reservation-system",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' node ./bin/www",
+    "dev:watch": "nodemon server.js && set NODE_ENV=local"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "~1.9.1",
+    "nodemailer": "^6.4.8",
+    "pg": "^8.0.2",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
