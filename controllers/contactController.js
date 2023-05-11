@@ -29,9 +29,9 @@ contactController.send = async function (req, res) {
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            return console.log(error);
+            return (err) => res.status(500).json({ message: "Error" });
         }
-        console.log('Message %s sent: %s', info.messageId, info.response);
+         return res.status(200).json({ message: "Success" });
     });
 
     res.end();
