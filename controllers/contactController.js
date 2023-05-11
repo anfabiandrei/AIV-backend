@@ -33,8 +33,6 @@ contactController.send = async function (req, res) {
         }
          return res.status(200).json({ message: "Success" });
     });
-
-    res.end();
   };
 
 module.exports = contactController;
