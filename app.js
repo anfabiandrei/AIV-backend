@@ -18,13 +18,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-const contactRouter     = require('./routes/contact');
-const stripeRouter     = require('./routes/stripe');
-const notificationRouter     = require('./routes/notification');
+const homeRouter = require('./routes/home');
 
-app.use('/', contactRouter);
-app.use('/', stripeRouter);
-app.use('/', notificationRouter);
+app.use('/', homeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
