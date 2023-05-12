@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const homeRouter = require('./routes/home');
 
-app.use('/', homeRouter);
+app.use('/api', homeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

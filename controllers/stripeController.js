@@ -7,11 +7,11 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const calculateOrderAmount = plan => {
     switch (plan) {
         case 'Plus':
-            return 299900
+            return 79900
         case 'Premium':
-            return 499900
-        default:
             return 99900
+        default:
+            return 49900
     }
 };
 
