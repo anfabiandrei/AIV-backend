@@ -13,16 +13,15 @@ notificationController.send = async function (req, res) {
     });
     
     const message = [
-        `Name: ${req.body.name}`,
-        `Your region: ${req.body.region}`,
-        `Message: ${req.body.message}`,
+        `Name: ${req.body.name}<br/> Your region: ${req.body.region}<br/> ID Purchase: ${req.body.id} <br/> Status: ${req.body.status}`,
     ]
 
     const mailOptions = {
         from: process.env.EMAIL_FROM,
         to: `${req.body.email}`,
         subject: "New notification",
-        text: message.join(),
+        text: '',
+        html: message.join(),
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
