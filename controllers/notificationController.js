@@ -13,7 +13,7 @@ notificationController.send = async function (req, res) {
     });
     
     const message = [
-        `Name: ${req.body.name}<br/> Your region: ${req.body.region}<br/> ID Purchase: ${req.body.id} <br/> Status: ${req.body.status}`,
+        `Your region: ${req.body.region}<br/> ID Purchase: ${req.body.id} <br/> Status: ${req.body.status}`,
     ]
 
     const mailOptions = {
