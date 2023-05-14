@@ -5,11 +5,11 @@ const notificationController = {};
 
 const filesPath = [
     [
-        { name: 'Financials', path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
+        { name: 'Legal', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Template.zip') },
         { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
     ],
     [
-        { name: 'Legal', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Template.zip') },
+        { name: 'Financials', path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
     ],
     [
         { name: 'Technical', path: path.resolve(__dirname, '../files/Quick_Raise_Technical_Q&A.zip') }
