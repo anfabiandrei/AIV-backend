@@ -5,7 +5,6 @@ const notificationController = {};
 
 const filesPath = [
     [
-        { name: 'Legal', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Template.zip') },
         { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
     ],
     [
