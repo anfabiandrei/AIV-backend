@@ -15,7 +15,7 @@ const getFile = (plan) => {
     switch (plan) {
         case 'Financials':
             return filesPath[1].path;
-        case 'Technical Q&A':
+        case 'Technical Q':
             return filesPath[2].path;
         default:
             return filesPath[0].path;
