@@ -1,5 +1,6 @@
 nodeMailer = require('nodemailer')
 const path = require("path");
+const fs = require('fs');
 
 const notificationController = {};
 
@@ -39,6 +40,31 @@ const getFile = (plan) => {
 }
 
 notificationController.send = async function (req, res) {
+    replaceTemplates = async function () {
+        let general = req.body.plan === 'General' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/general.html'), 'utf8');
+        let financials = req.body.plan === 'Financials' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/financials.html'), 'utf8');
+        let technical = req.body.plan === 'Technical Q&A' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/technical.html'), 'utf8');
+    
+        const page = fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/index.html'), 'utf8');
+ 
+        const websiteUrl = `${process.env.REACT_APP_URL}/pricing`;
+
+        general = general.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}/images/checked.svg`);
+        financials = financials.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}/images/checked.svg`);
+        technical = technical.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}/images/checked.svg`);
+        
+        return  page
+            .replace('#{description}', '')
+            .replace('#{table1}', general || financials)
+            .replace('#{table2}', technical || financials)
+            .replace(/#{websiteUrl}/g, websiteUrl)
+            .replace('#{downloadUrl}', downloadLink)
+            .replace('#{orderNumber}', req.body.id)
+            .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
+            .replace(/#{cidFolder}/g, `${process.env.IMAGE_HOST}/images/folder.svg`)
+            .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}/images/logo.svg`)
+    }
+    
     let check;
     const transporter = nodeMailer.createTransport({
         host: process.env.EMAILHOST,
@@ -50,9 +76,9 @@ notificationController.send = async function (req, res) {
     });
 
 
-    const message = [
-        `Your region: ${req.body.region}<br/> ID Purchase: ${req.body.id} <br/> Status: ${req.body.status}`,
-    ]
+    const downloadLink = `${process.env.HOST}/download?id=${req.body.id}&method=${req.body.payload.paymentIntent.payment_method}&plan=${req.body.plan}`;
+    const page = await replaceTemplates();
+
     stripe.paymentIntents.confirm(
         `${req.body.payload.paymentIntent.id}`,
         { payment_method: `${req.body.payload.paymentIntent.payment_method}` },
@@ -62,9 +88,9 @@ notificationController.send = async function (req, res) {
             const mailOptions = {
                 from: process.env.EMAIL_FROM,
                 to: `${req.body.email}`,
-                subject: "New notification",
+                subject: 'New notification',
                 text: '',
-                html: message.join(),
+                html: page,
                 attachments: files,
             };
 
@@ -76,8 +102,6 @@ notificationController.send = async function (req, res) {
             });
         }
     );
-
-
 };
 
 
