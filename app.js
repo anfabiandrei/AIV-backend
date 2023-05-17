@@ -3,12 +3,17 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 require("./config");
 require("./helpers");
 require('dotenv').config()
 
 const app = express();
+
+if (!process.env.ENVIRONMENT !== 'production') {
+  app.use(cors({credentials: true, origin: true}))
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
