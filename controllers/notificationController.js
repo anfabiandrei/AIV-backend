@@ -41,7 +41,7 @@ const getFile = (plan) => {
 
 const imageUrl = {
     checked: 'https://npi-is.s3.eu-west-3.amazonaws.com/checked.svg',
-    folder: 'https://npi-is.s3.eu-west-3.amazonaws.com/folder.svg',
+    folder: 'https://npi-is.s3.eu-west-3.amazonaws.com/folder.png',
     logo: 'https://npi-is.s3.eu-west-3.amazonaws.com/logo.svg'
 };
 
