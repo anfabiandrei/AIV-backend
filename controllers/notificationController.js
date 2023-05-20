@@ -39,7 +39,11 @@ const getFile = (plan) => {
     }
 }
 
-const folderImg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDI0IDIyIj4KICA8ZyBpZD0iZm9sZGVyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxIDEpIj4KICAgIDxwYXRoIGlkPSJQYXRoIiBkPSJNMjIsMTcuNzc4QTIuMjExLDIuMjExLDAsMCwxLDE5LjgsMjBIMi4yQTIuMjExLDIuMjExLDAsMCwxLDAsMTcuNzc4VjIuMjIyQTIuMjExLDIuMjExLDAsMCwxLDIuMiwwSDcuN0w5LjksMy4zMzNoOS45QTIuMjExLDIuMjExLDAsMCwxLDIyLDUuNTU2WiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzBiMTc5IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPC9nPgo8L3N2Zz4K'
+const imageUrl = {
+    checked: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/checked.svg',
+    folder: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/folder.svg',
+    logo: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/logo.svg'
+};
 
 notificationController.send = async function (req, res) {
     replaceTemplates = async function () {
@@ -51,9 +55,9 @@ notificationController.send = async function (req, res) {
  
         const websiteUrl = `${process.env.REACT_APP_URL}/pricing`;
 
-        general = general.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.svg`);
-        financials = financials.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.svg`);
-        technical = technical.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.svg`);
+        general = general.replace(/#{cidChecked}/g, imageUrl.checked);
+        financials = financials.replace(/#{cidChecked}/g, imageUrl.checked);
+        technical = technical.replace(/#{cidChecked}/g, imageUrl.checked);
         
         return  page
             .replace('#{description}', '')
@@ -63,8 +67,8 @@ notificationController.send = async function (req, res) {
             .replace('#{downloadUrl}', downloadLink)
             .replace('#{orderNumber}', req.body.id)
             .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
-            .replace(/#{cidFolder}/g, folderImg)
-            .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}images/logo.svg`)
+            .replace(/#{cidFolder}/g, imageUrl.folder)
+            .replace(/#{cidLogo}/g, imageUrl.logo)
     }
     
     let check;
