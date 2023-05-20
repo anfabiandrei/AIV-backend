@@ -39,12 +39,6 @@ const getFile = (plan) => {
     }
 }
 
-const imageUrl = {
-    checked: 'https://npi-is.s3.eu-west-3.amazonaws.com/checked.svg',
-    folder: 'https://npi-is.s3.eu-west-3.amazonaws.com/folder.png',
-    logo: 'https://npi-is.s3.eu-west-3.amazonaws.com/logo.svg'
-};
-
 notificationController.send = async function (req, res) {
     replaceTemplates = async function () {
         let general = req.body.plan === 'General' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/general.html'), 'utf8');
@@ -55,9 +49,9 @@ notificationController.send = async function (req, res) {
  
         const websiteUrl = `${process.env.REACT_APP_URL}/pricing`;
 
-        general = general.replace(/#{cidChecked}/g, imageUrl.checked);
-        financials = financials.replace(/#{cidChecked}/g, imageUrl.checked);
-        technical = technical.replace(/#{cidChecked}/g, imageUrl.checked);
+        general = general.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.png`);
+        financials = financials.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.png`);
+        technical = technical.replace(/#{cidChecked}/g, `${process.env.IMAGE_HOST}images/checked.png`);
         
         return  page
             .replace('#{description}', '')
@@ -67,8 +61,8 @@ notificationController.send = async function (req, res) {
             .replace('#{downloadUrl}', downloadLink)
             .replace('#{orderNumber}', req.body.id)
             .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
-            .replace(/#{cidFolder}/g, imageUrl.folder)
-            .replace(/#{cidLogo}/g, imageUrl.logo)
+            .replace(/#{cidFolder}/g, `${process.env.IMAGE_HOST}images/folder.png`)
+            .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}images/logo.png`)
     }
     
     let check;
