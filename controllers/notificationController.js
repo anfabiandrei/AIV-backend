@@ -39,6 +39,8 @@ const getFile = (plan) => {
     }
 }
 
+const folderImg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyMiIgdmlld0JveD0iMCAwIDI0IDIyIj4KICA8ZyBpZD0iZm9sZGVyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxIDEpIj4KICAgIDxwYXRoIGlkPSJQYXRoIiBkPSJNMjIsMTcuNzc4QTIuMjExLDIuMjExLDAsMCwxLDE5LjgsMjBIMi4yQTIuMjExLDIuMjExLDAsMCwxLDAsMTcuNzc4VjIuMjIyQTIuMjExLDIuMjExLDAsMCwxLDIuMiwwSDcuN0w5LjksMy4zMzNoOS45QTIuMjExLDIuMjExLDAsMCwxLDIyLDUuNTU2WiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzBiMTc5IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPC9nPgo8L3N2Zz4K'
+
 notificationController.send = async function (req, res) {
     replaceTemplates = async function () {
         let general = req.body.plan === 'General' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/general.html'), 'utf8');
@@ -61,7 +63,7 @@ notificationController.send = async function (req, res) {
             .replace('#{downloadUrl}', downloadLink)
             .replace('#{orderNumber}', req.body.id)
             .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
-            .replace(/#{cidFolder}/g, `${process.env.IMAGE_HOST}images/folder.svg`)
+            .replace(/#{cidFolder}/g, folderImg)
             .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}images/logo.svg`)
     }
     
