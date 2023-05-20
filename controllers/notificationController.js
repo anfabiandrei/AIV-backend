@@ -40,9 +40,9 @@ const getFile = (plan) => {
 }
 
 const imageUrl = {
-    checked: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/checked.svg',
-    folder: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/folder.svg',
-    logo: 'https://amazonbucketstorage.s3.us-east-2.amazonaws.com/aiv-svg-icons/logo.svg'
+    checked: 'https://npi-is.s3.eu-west-3.amazonaws.com/checked.svg',
+    folder: 'https://npi-is.s3.eu-west-3.amazonaws.com/folder.svg',
+    logo: 'https://npi-is.s3.eu-west-3.amazonaws.com/logo.svg'
 };
 
 notificationController.send = async function (req, res) {
