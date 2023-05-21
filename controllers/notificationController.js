@@ -4,39 +4,22 @@ const fs = require('fs');
 
 const notificationController = {};
 
-const filesPath = [
-    [
-        { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
-    ],
-    [
-        { name: 'Financials', path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
-    ],
-    [
-        { name: 'Technical', path: path.resolve(__dirname, '../files/Quick_Raise_Technical_Q&A.zip') }
-    ]
-];
+//TODO replace legal with actual legal pack
+const filesPath = {
+    General: { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
+    Financials: { name: 'Financials', path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
+    'Technical Q&A': { name: 'Technical', path: path.resolve(__dirname, '../files/Quick_Raise_Technical_Q&A.zip') },
+    Legal: { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Pack.zip') }
+};
 
 const stripe = require("stripe")(process.env.STRIPE_SK);
 
-const getFile = (plan) => {
-    // This is the basis for files output when using the basket   
+const getAttachments = (plan) => {
+    return plan.reduce((p, n) => [...p, filesPath[n]], []);
+}
 
-    // let paths = [];
-    // files.map((val) => {
-    //     filesPath.forEach((file) => {
-    //         file.name === val && paths.push({ filename: `${file.name}`, path: `${file.path}` })
-    //     })
-    // });
-    // return paths;
-
-    switch (plan) {
-        case 'Financials':
-            return filesPath[1];
-        case 'Technical Q&A':
-            return filesPath[2];
-        default:
-            return filesPath[0];
-    }
+const getFileList = (plan) => {
+    return plan.reduce((p, n) => p + ', ' + filesPath[n].name + '.zip', '').slice(2);
 }
 
 notificationController.send = async function (req, res) {
@@ -60,7 +43,7 @@ notificationController.send = async function (req, res) {
             .replace(/#{websiteUrl}/g, websiteUrl)
             .replace('#{downloadUrl}', downloadLink)
             .replace('#{orderNumber}', req.body.id)
-            .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
+            .replace('#{packName}', `${getFileList(req.body.plan)}`)
             .replace(/#{cidFolder}/g, `${process.env.IMAGE_HOST}images/folder.png`)
             .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}images/logo.png`)
             .replace(/#{fontBaseUrl}/g, `${process.env.IMAGE_HOST}fonts`);
@@ -77,7 +60,7 @@ notificationController.send = async function (req, res) {
     });
 
 
-    const downloadLink = `${process.env.HOST}/download?id=${req.body.id}&method=${req.body.payload.paymentIntent.payment_method}&plan=${req.body.plan}`;
+    const downloadLink = `${process.env.HOST}/download?id=${req.body.id}&method=${req.body.payload.paymentIntent.payment_method}&plan=${encodeURIComponent(req.body.plan)}`;
     const page = await replaceTemplates();
 
     stripe.paymentIntents.confirm(
@@ -85,7 +68,7 @@ notificationController.send = async function (req, res) {
         { payment_method: `${req.body.payload.paymentIntent.payment_method}` },
         function (err, paymentIntent) {
             check = err.message === 'You cannot confirm this PaymentIntent because it has already succeeded after being previously confirmed.'
-            const files = check ? getFile(req.body.plan) : [];
+            const files = check ? getAttachments(req.body.plan) : [];
             const mailOptions = {
                 from: process.env.EMAIL_FROM,
                 to: `${req.body.email}`,
