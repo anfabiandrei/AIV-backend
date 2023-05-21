@@ -9,7 +9,7 @@ const filesPath = {
     General: { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
     Financials: { name: 'Financials', path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
     'Technical Q&A': { name: 'Technical', path: path.resolve(__dirname, '../files/Quick_Raise_Technical_Q&A.zip') },
-    Legal: { name: 'General', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Pack.zip') }
+    Legal: { name: 'Legal', path: path.resolve(__dirname, '../files/Quick_Raise_Legal_Pack.zip') }
 };
 
 const stripe = require("stripe")(process.env.STRIPE_SK);
@@ -22,11 +22,25 @@ const getFileList = (plan) => {
     return plan.reduce((p, n) => p + ', ' + filesPath[n].name + '.zip', '').slice(2);
 }
 
+const getSuggestedPacksList = (plan) => {
+    const initialPacks = ['General', 'Financials', 'Technical Q&A'];
+    let suggestedPacks = initialPacks.filter(pack => !plan.includes(pack));
+
+    if (suggestedPacks.length === 2) {
+        return suggestedPacks;
+    } else {
+        const packsSet = new Set([...suggestedPacks, ...initialPacks]);
+        return [...packsSet].slice(0, 2);
+    }
+}
+
 notificationController.send = async function (req, res) {
     replaceTemplates = async function () {
-        let general = req.body.plan === 'General' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/general.html'), 'utf8');
-        let financials = req.body.plan === 'Financials' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/financials.html'), 'utf8');
-        let technical = req.body.plan === 'Technical Q&A' ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/technical.html'), 'utf8');
+        const packs = getSuggestedPacksList(req.body.plan);
+
+        let general = !packs.includes('General') ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/general.html'), 'utf8');
+        let financials = !packs.includes('Financials') ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/financials.html'), 'utf8');
+        let technical = !packs.includes('Technical Q&A') ? '' : fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/technical.html'), 'utf8');
     
         const page = fs.readFileSync(path.join(__dirname, '../files/newsletter/templates/index.html'), 'utf8');
  
