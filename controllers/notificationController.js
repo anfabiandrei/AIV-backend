@@ -63,6 +63,7 @@ notificationController.send = async function (req, res) {
             .replace('#{packName}', `${getFile(req.body.plan)[0].name}.zip`)
             .replace(/#{cidFolder}/g, `${process.env.IMAGE_HOST}images/folder.png`)
             .replace(/#{cidLogo}/g, `${process.env.IMAGE_HOST}images/logo.png`)
+            .replace(/#{fontBaseUrl}/g, `${process.env.IMAGE_HOST}fonts`);
     }
     
     let check;
