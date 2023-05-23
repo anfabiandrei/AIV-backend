@@ -19,6 +19,7 @@ stripeController.send = async function (req, res) {
       amount: calculateOrderAmount(planForBuy),
       currency: currency,
       metadata: {integration_check: 'accept_a_payment'},
+      description: JSON.stringify(planForBuy),
     });
     res.send({
       clientSecret: paymentIntent.client_secret,
