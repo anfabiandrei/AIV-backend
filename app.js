@@ -11,7 +11,7 @@ require('dotenv').config()
 
 const app = express();
 
-if (!process.env.ENVIRONMENT !== 'production') {
+if (process.env.ENVIRONMENT !== 'production') {
   app.use(cors({credentials: true, origin: true}))
 }
 
