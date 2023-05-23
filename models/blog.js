@@ -5,6 +5,25 @@ const blog = new Schema({
     type: Schema.Types.String,
     required: true,
   },
+  posts: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+      },
+      text: {
+        type: Schema.Types.String,
+        required: true,
+      },
+      createdAt: {
+        type: Schema.Types.Date,
+        default: new Date(),
+      },
+      updatedAt: {
+        type: Schema.Types.Date,
+        default: new Date(),
+      },
+    },
+  ],
   author: {
     type: Schema.Types.ObjectId,
     ref: 'user',

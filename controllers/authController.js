@@ -18,24 +18,24 @@ authController.login = async (req, res) => {
       return;
     }
 
-    console.log('userId', user._id);
     const accessToken = signAccessToken({ email: user.email, userId: user._id });
-    console.log('accessToken', accessToken);
-    res.status(200).json({ email, accessToken });
+    res.status(200).json({ accessToken });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
 };
 
-authController.register = async (req, res) => {
-  const { email, nickname, password } = req.body;
+authController.register = async (req, res, next) => {
+  const { email, nickname, password, firstName, lastName } = req.body;
 
   try {
-    const userByNickname = await User.findOne({ nickname });
+    if (nickname) {
+      const userByNickname = await User.findOne({ nickname });
 
-    if (userByNickname) {
-      res.status(409).json({ message: 'Nickname already exist' });
-      return;
+      if (userByNickname) {
+        res.status(409).json({ message: 'Nickname already exist' });
+        return;
+      }
     }
 
     const userByEmail = await User.findOne({ email });
@@ -49,12 +49,14 @@ authController.register = async (req, res) => {
 
     await User.create({
       email,
-      nickname,
+      nickname: nickname || null,
+      firstName,
+      lastName,
       password: hashedPassword,
       createdAt: new Date(),
     });
 
-    res.status(201).json({ message: 'User was successfully created' });
+    next();
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }

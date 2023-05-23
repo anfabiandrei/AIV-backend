@@ -5,9 +5,18 @@ const user = new Schema({
     type: Schema.Types.String,
     required: true,
   },
-  nickname: {
+  firstName: {
     type: Schema.Types.String,
     required: true,
+  },
+  lastName: {
+    type: Schema.Types.String,
+    required: true,
+  },
+  nickname: {
+    type: Schema.Types.String,
+    required: false,
+    default: null,
   },
   password: {
     type: Schema.Types.String,
