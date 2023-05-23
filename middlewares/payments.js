@@ -2,7 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 
 function verifyPayment(req, res, next) {
   const id = req.query.id || req.body.id;
-  const plans = req.query.plan || req.body.plan;
+  const plans = (req.query.plan && req.query.plan.split(',')) || req.body.plan;
   const payment_method = req.query.method || req.body.payload.paymentIntent.payment_method;
 
   stripe.paymentIntents.confirm(id, { payment_method }, function (err, paymentIntent) {
