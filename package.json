@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED='0' node ./bin/www",
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED='1' node ./bin/www",
     "dev:watch": "nodemon server.js && set NODE_ENV=local",
     "test": "mocha"
   },
@@ -20,6 +20,7 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^8.0.1",
+    "mongoose": "^5.9.25",
     "morgan": "~1.9.1",
     "nodemailer": "^6.4.8",
     "path": "^0.12.7",
