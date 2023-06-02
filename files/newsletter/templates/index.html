@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Demystifying Email Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+
+        @font-face {
+            font-family: 'RobotoSlab';
+            src:         url('#{fontBaseUrl}/RobotoSlab/RobotoSlab-ExtraLight.ttf') format('truetype');
+            font-weight: 200;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'RobotoSlab';
+            src:         url('#{fontBaseUrl}/RobotoSlab/RobotoSlab-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'RobotoSlab';
+            src:         url('#{fontBaseUrl}/RobotoSlab/RobotoSlab-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'Avenir';
+            src:         url('#{fontBaseUrl}/Avenir/Avenir-Book.ttf') format('truetype');
+            font-weight: normal;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'Avenir';
+            src:         url('#{fontBaseUrl}/Avenir/Avenir-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Sans';
+            src:         url('#{fontBaseUrl}/IBMPlexSans/IBMPlexSans-Light.ttf') format('truetype');
+            font-weight: 300;
+            font-style:  normal;
+        }
+
+        @font-face {
+            font-family: 'IBM Plex Sans';
+            src:         url('#{fontBaseUrl}/IBMPlexSans/IBMPlexSans-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style:  normal;
+        }
+
+
+
+        @media (max-width: 900px) {
+            h2 {
+                font-size: 36px !important;
+                line-height: 46px !important;
+            }
+            h3 {
+                font-size: 23px !important;
+                line-height: 28px !important;
+            }
+            h5 {
+                font-size: 15px !important;
+                line-height: 20px !important;
+            }
+            p {
+                font-size: 12px !important;
+                line-height: 18px !important;
+            }
+            a {
+                padding: 16px !important;
+                font-size: 16px !important;
+                line-height: 22px !important;
+            }
+            .email-main {
+                width: 280px !important;
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+            .email-title {
+                padding-top: 54px !important;
+            }
+            .email-order {
+                padding-top: 30px !important;
+            }
+            .email-description {
+                padding-top: 40px !important;
+            }
+            .email-description br {
+                display: none !important;
+            }
+            .email-logo {
+                padding-top: 90px !important;
+            }
+            .email-logo img {
+                width: 200px !important;
+            }
+            .email-download {
+                width: 280px !important;
+                margin-top: 40px !important;
+                margin-bottom: 20px !important;
+            }
+            .email-download td {
+                padding-top: 16px !important;
+                padding-right: 20px !important;
+                padding-bottom: 16px !important;
+                padding-left: 20px !important;
+            }
+            .folder {
+                width: 30px !important;
+            }
+            .folder img {
+                width: 22px !important;
+            }
+            .folder-name p {
+                font-size: 13px !important;
+                line-height: 17px !important;
+            }
+            .email-info {
+                padding-top: 20px !important;
+            }
+            .email-info p {
+                font-size: 12px !important;
+                line-height: 18px !important;
+            }
+            .email-info br {
+                display: none !important;
+            }
+            .email-explore {
+                padding-top: 30px !important;
+                padding-bottom: 32px !important;
+            }
+            .email-itemWrapper {
+                padding-bottom: 38px !important;
+            }
+            .email-item {
+                display: block !important;
+                width: 280px !important;
+                padding-right: 0 !important;
+                margin-bottom: 20px !important;
+            }
+            .email-footer p {
+                font-size: 11px !important;
+                line-height: 18px !important;
+                padding-top: 36px !important;
+            }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+<table align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td>
+            <table class="email-main" align="center" cellpadding="0" cellspacing="0" width="610" bgcolor="#ffffff" style="padding-left:145px;padding-right:145px;">
+                <tr>
+                    <td class="email-logo" align="center" style="padding-top:91px;">
+                        <img alt="image" title="image" crossorigin="anonymous" src="#{cidLogo}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-title" align="center" style="font-family:'RobotoSlab', sans-serif;padding-top:81px; font-weight: 200;">
+                        <h2 style="margin:0;font-weight:200;font-size:60px;line-height:67px;color:#000000;"> Thanks for your <br/> <span style="font-weight: 500;">purchase!</span></h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-order" align="center" style="font-family:'RobotoSlab', sans-serif;padding-top:52px;">
+                        <h3 style="margin:0;font-weight:200;font-size:30px;line-height:36px;color:#728387;">Order <span class="green" style="color:#30b179; font-weight: normal;">#{orderNumber}</span>
+                        </h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-description" align="center" style="padding-top:60px;">
+                        <p style="margin:0;font-size:20px;line-height:27px;color:#728387;font-family: 'Avenir', sans-serif;">
+                            #{description}
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="email-download" align="center" cellpadding="0" cellspacing="0" width="610" style="border:1px solid #d8dde2;margin-top:60px;margin-bottom:32px;">
+                            <tr>
+                                <td align="center" class="folder" width="50" style="background-color:rgba(48, 177, 121, 0.05);padding-top:22px;padding-right:20px;padding-bottom:22px;padding-left:20px;">
+                                    <img crossorigin="anonymous" src="#{cidFolder}" alt="folder" title="folder">
+                                </td>
+                                <td align="left" class="folder-name" style="font-size:16px;line-height:20px;color:#728387;padding-top:22px;padding-right:20px;padding-bottom:22px;padding-left:20px;font-family:'IBM Plex Sans', sans-serif;">
+                                    <h5 style="margin:0;font-size:18px;line-height:23px;color:#000000; font-weight: normal;">#{packName}</h5>
+                                    <p style="margin:0;color:#728387;font-size:16px;line-height:20px; font-weight: 300;">Customer Ac counts,</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" bgcolor="#30b179" style="font-family:'Avenir', sans-serif;">
+                        <a href="#{downloadUrl}" style="font-size:20px;line-height:27px;color:#ffffff;background-color:transparent;text-decoration:none;display:block;padding-top:20px;padding-bottom:20px;">Download</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" class="email-info" style="font-family:'Avenir', sans-serif;padding-top:30px;padding-bottom:30px;">
+                        <p style="margin:0;color:#728387;font-size:18px;line-height:27px;">
+                            If you have any questions, or need any help please contact us at:<br/>
+                            <a href="mailto:info@quickraise.com" class="green" style="color:#30b179; text-decoration: none;padding:0 !important;">info@quickraise.com</a>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="hr" style="background-color:#d8d8d8;height:1px;margin-top:30px;margin-bottom:30px;padding:0;"></td>
+                </tr>
+                <tr align="center" style="font-family:'Avenir', sans-serif;">
+                    <td class="email-explore" style="padding-top:36px;padding-bottom:35px;">
+                        <p style="margin:0;font-size:20px;line-height:27px;color:#728387;">Explore our other packs on QuickRaise:</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="email-itemWrapper" style="font-family:'Avenir', sans-serif;padding-bottom:58px;">
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="email-item" width="450" style="padding-right: 50px">
+                                    #{table1}  
+                                </td>
+                                <td class="email-item" width="450">
+                                    #{table2}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="hr" style="background-color:#d8d8d8;height:1px;margin-top:30px;margin-bottom:30px;padding:0;"></td>
+                </tr>
+                <tr>
+                    <td class="email-footer" align="center" style="font-family:'Avenir', sans-serif;">
+                        <p style="margin:0;color:#728387;padding-top:50px;padding-bottom:50px;font-size:17px;line-height:23px;">© 2014-2019 QuickRaise, 99 Wall Street, New York NY 10005 <br/>
+                            You are receiving this email because you Purchased <br/>
+                            a product from QuickRaise.</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

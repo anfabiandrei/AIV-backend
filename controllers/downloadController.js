@@ -1,38 +1,15 @@
-nodeMailer = require('nodemailer')
-const path = require("path");
+const zip = require('express-zip');
+const { getFile } = require("../helpers/files");
 
 const notificationController = {};
 
-const filesPath = [
-    { path: path.resolve(__dirname, '../files/Quick_Raise_General_Templates.zip') },
-    { path: path.resolve(__dirname, '../files/Quick_Raise_Financials_Template.zip') },
-    { path: path.resolve(__dirname, '../files/Quick_Raise_Technical_Q&A.zip') },
-];
-
-const stripe = require("stripe")(process.env.STRIPE_SK);
-
-const getFile = (plan) => {
-    switch (plan) {
-        case 'Financials':
-            return filesPath[1].path;
-        case 'Technical Q':
-            return filesPath[2].path;
-        default:
-            return filesPath[0].path;
-    }
-}
-
 notificationController.send = async function (req, res) {
-    stripe.paymentIntents.confirm(
-        `${req.query.id}`,
-        { payment_method: `${req.query.method}` },
-        function (err, paymentIntent) {
-            check = err.message === 'You cannot confirm this PaymentIntent because it has already succeeded after being previously confirmed.'
-            const file = check ? getFile(req.query.plan) : [];
-            return res.status(200).download(file);
-        }
-    );
-};
+    const files = req.query.plan.split(',');
+    const file = getFile(files);
 
+    return file.length > 1
+        ? res.status(200).zip(file, 'Quick_Raise_Templates.zip')
+        : res.status(200).download(file[0].path);
+};
 
 module.exports = notificationController;

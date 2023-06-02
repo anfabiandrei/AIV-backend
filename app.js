@@ -9,11 +9,11 @@ const cors = require('cors');
 require('./config');
 require('./helpers');
 require('dotenv').config();
-require("./db/connection");
+require('./db/connection');
 
 const app = express();
 
-if (!process.env.ENVIRONMENT !== 'production') {
+if (process.env.ENVIRONMENT !== 'production') {
   app.use(cors({ credentials: true, origin: true }));
 }
 
@@ -24,6 +24,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 const homeRouter = require('./routes/home');
 

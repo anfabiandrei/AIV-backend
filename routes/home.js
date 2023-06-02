@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const payment = require('../middlewares/payments');
 
 const teamRouter = require('./team');
 const blogRouter = require('./blog');
@@ -25,7 +26,8 @@ router.use('/user', userRouter);
 
 router.post('/contact', verifyToken, contactController.send);
 router.post('/notification', verifyToken, notificationController.send);
-router.post('/create-payment-intent', verifyToken, stripeController.send, transactionController.create);
-router.get('/download', verifyToken, downloadController.send);
+router.post('/create-payment-intent', stripeController.send, transactionController.create);
+router.post('/update-payment-intent', stripeController.update);
+router.get('/download', payment.verifyPayment, downloadController.send);
 
 module.exports = router;
