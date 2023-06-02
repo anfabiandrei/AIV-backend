@@ -1,5 +1,6 @@
 const { getGMTDate } = require('../services/auth');
 const Transaction = require('../models/transaction');
+const { filterByPlan } = require('../services/filtrations');
 
 const transactionController = {};
 
@@ -37,24 +38,21 @@ transactionController.getByUser = async function (req, res) {
 
 transactionController.getByFilter = async function (req, res) {
   const { userId } = req;
-  const { from, to } = req.query;
+  const { from, to, minp: minPrice, maxp: maxPrice } = req.query;
+  const plans = req.query.plans && req.query.plans.split(',');
 
-  if (!(from || to)) {
+  if (!(!from || !to || !plans)) {
     return res.status(400).json({ message: 'Bad request' });
   }
 
   try {
     let transactions = await Transaction.find({ userId });
-    console.log('transaction', transactions);
 
-    from &&
-      (transactions = transactions.filter((tran) => {
-        console.log(tran.purchaseTime, new Date(from));
-        return new Date(tran.purchaseTime) >= new Date(from);
-      }));
-    console.log(transactions.length);
+    from && (transactions = transactions.filter((tran) => new Date(tran.purchaseTime) >= new Date(from)));
     to && (transactions = transactions.filter((tran) => new Date(tran.purchaseTime) <= new Date(to)));
-    console.log(transactions.length);
+    plans && (transactions = filterByPlan(plans, transactions));
+    minPrice && (transactions = transactions.filter((item) => item.amount >= minPrice));
+    maxPrice && (transactions = transactions.filter((item) => item.amount <= maxPrice));
 
     res.status(200).json(transactions);
   } catch (err) {
