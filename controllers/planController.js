@@ -39,7 +39,7 @@ planController.changeFields = async function (req, res) {
   const changes = {};
   title && (changes.title = title);
   description && (changes.description = description);
-  discount && (changes.discount = discount);
+  discount !== undefined && (changes.discount = discount);
 
   try {
     await Plan.findById(planId, async (err, plan) => {

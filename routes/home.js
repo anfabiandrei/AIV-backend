@@ -9,6 +9,7 @@ const authRouter = require('./auth');
 const transactionRouter = require('./transaction');
 const planRouter = require('./plan');
 const userRouter = require('./user');
+const couponRouter = require('./coupon');
 
 const verifyToken = require('../middlewares/auth');
 const contactController = require('../controllers/contactController');
@@ -24,6 +25,7 @@ router.use('/auth', authRouter);
 router.use('/transaction', verifyToken, transactionRouter);
 router.use('/plan', verifyToken, planRouter);
 router.use('/user', userRouter);
+router.use('/coupon', couponRouter);
 
 router.post('/contact', verifyToken, contactController.send);
 router.post('/notification', verifyToken, transactionController.create, notificationController.send);

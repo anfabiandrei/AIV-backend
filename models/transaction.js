@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const transaction = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    of: 'user',
+    ref: 'user',
     required: true,
   },
   plans: {
@@ -29,6 +29,15 @@ const transaction = new Schema({
   clientSecret: {
     type: Schema.Types.String,
     required: true,
+  },
+  couponId: {
+    type: Schema.Types.ObjectId,
+    ref: 'coupon',
+    default: null,
+  },
+  amountWithoutDiscount: {
+    type: Schema.Types.Number,
+    default: false,
   },
 });
 

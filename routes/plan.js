@@ -1,10 +1,10 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
-const planController  = require('../controllers/planController');
+const planController = require('../controllers/planController');
 
-router.get('/get', planController.get);
-router.post('/create', planController.create);
-router.put('/change_fields', planController.changeFields);
+router.get('/', planController.get);
+router.post('/', planController.create);
+router.put('/', planController.changeFields);
 
 module.exports = router;

@@ -1,11 +1,12 @@
+const mongoose = require('mongoose');
 const Team = require('../models/team');
 
 const teamController = {};
 
-teamController.get = async function (req, res) {
+teamController.get = function (req, res) {
   const { teamId } = req.body;
   try {
-    await Team.findById(teamId, (err, team) => {
+    Team.findById(teamId, (err, team) => {
       if (err) {
         return res.status(409).json({ message: `Server error: ${err}` });
       }
@@ -54,6 +55,7 @@ teamController.addMember = async function (req, res) {
   const { teamId, userId, role } = req.body;
 
   try {
+    // rewrite with catch errors
     await Team.findByIdAndUpdate(
       { _id: teamId },
       {
@@ -72,11 +74,11 @@ teamController.addMember = async function (req, res) {
   }
 };
 
-teamController.removeMember = async function (req, res) {
+teamController.removeMember = function (req, res) {
   const { teamId, userId } = req.body;
 
   try {
-    await Team.findById(teamId, async (err, team) => {
+    Team.findById(teamId, async (err, team) => {
       if (err) {
         return res.status(409).json({ message: `Server error: ${err}` });
       }
@@ -100,11 +102,11 @@ teamController.removeMember = async function (req, res) {
   }
 };
 
-teamController.changeRoles = async function (req, res) {
+teamController.changeRoles = function (req, res) {
   const { teamId, userId, role } = req.body;
 
   try {
-    await Team.findById(teamId, async (err, team) => {
+    Team.findById(teamId, async (err, team) => {
       if (err) {
         return res.status(409).json({ message: `Server error: ${err}` });
       }
@@ -127,6 +129,31 @@ teamController.changeRoles = async function (req, res) {
     });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
+  }
+};
+
+teamController.delete = async (req, res) => {
+  const { teamId } = req.body;
+
+  try {
+    await Team.findByIdAndRemove(teamId);
+    res.status(200).json({ message: 'Team was successfully deleted' });
+  } catch (err) {
+    if (err.message.indexOf('Cast to ObjectId failed') !== -1) {
+      return res.status(404).json({ message: 'Team is not defined' });
+    }
+
+    res.status(500).json({ message: `Server error: ${err}` });
+  }
+
+  try {
+    Team.findById(teamId, (err, res) => {
+      err
+        ? res.status(404).json({ message: 'Team is not defined' })
+        : res.status(500).json({ message: `Server error: ${err}` });
+    });
+  } catch (err) {
+    res.status(500).json({ message: `Server error: ${err}` });
   }
 };
 

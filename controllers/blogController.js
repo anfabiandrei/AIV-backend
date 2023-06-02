@@ -13,7 +13,7 @@ blogController.getAll = async function (req, res) {
   }
 };
 
-blogController.getById = async function (req, res) {
+blogController.getByAuthor = async function (req, res) {
   const { id: blogId } = req.params;
 
   try {

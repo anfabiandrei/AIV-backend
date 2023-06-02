@@ -15,12 +15,12 @@
     <h1 id="api-documentation">API documentation</h1>
     <p>API Node versions: v12.16.3</p>
     <h2 id="user-credentials">User credentials</h2>
-    <p>Please use your API credentials (username, password) to connect to the API.</p>
+    <p>Please use your API credentials (email, password) to connect to the API.</p>
     <h2 id="main-op-api">Main op API</h2>
     <h3 id="get">GET <code>/</code></h3>
     <p>Gets API landing page which contains this documentation.</p>
 
-    <h2>Get <code>/auth</code> requests</h2>
+    <h2>Group <code>/auth</code> requests</h2>
     <ol>
       <li>
         <h3>POST <code>/login</code></h3>
@@ -115,14 +115,14 @@
       &quot;clientSecret&quot;: &quot;pi_1H9rbKKsunFYlA3rxrZ62R_secret_BTA7Rv9pFmFDSD4oZiPdeIla8U&quot;,
       &quot;paymentIntentId&quot;: &quot;pi_1H9rbKKgdrhgcfiDQr2l62R&quot;
 }</code></pre>
-  <h3>**verifyToken</h3>
-}</code></pre>
+    <h3>**verifyToken</h3>
+
     <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
     <pre><code>{
       &quot;message&quot;: &quot;Server error ${err}&quot;
 }</code></pre>
 
-  <h3>POST <code>/notification</code> requests</h3>
+    <h3>POST <code>/notification</code> requests</h3>
     <p>Request for sending notifitacion.</p>
     <p><strong>Request</strong> body will look like following:</p>
     <pre><code>{
@@ -143,12 +143,59 @@
       &quot;message&quot;: &quot;Server error ${err}&quot;
 }</code></pre>
 
-    <p><h2>verifyToken</h2></p>
+    <h2>verifyToken</h2>
     <p>If this token exist in request, then he check request on valid access token in request header.</p>
-    <p>If he is invalid then <strong>unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+    <p
+      >If he is invalid then <strong>unsuccessfully response</strong> body with code <strong>500</strong> will look like
+      following:</p
+    >
     <pre><code>{
       &quot;message&quot;: &quot;Access denied&quot;,
 }</code></pre>
 
+<!----------------------------------------------------------------  -->
+<!---------------------- GROUP OF TEAM REQUEST ----------------------->
+<!----------------------------------------------------------------  -->
+<!-- get request /team -->
+    <h2>Group <code>/team</code> requests</h2>
+    <ol>
+      <li>
+        <h3>GET <code>/get</code> requests</h3>
+        <p>Request for getting single team.</p>
+        <p><strong>Request</strong> body will look like following:</p>
+        <pre><code>{
+    &quot;teamId&quot;: &quot;t489gdyg8dryg7drg89d&quot;,
+}</code></pre>
+        <p><strong>Example</strong> of the request:</p>
+        <p
+          ><a href="https://localhost:8080/api/team/get"
+            >https://localhost:8080/api/team/get</a
+          ></p
+        >
+        <p><strong>Successfully response</strong> body with code <strong>200</strong> will look like following:</p>
+        <pre><code>{
+          &quot;created_at&quot;: &quot;Server error ${err}&quot;
+    }</code></pre>
+        <h3>**verifyToken</h3>
+        <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+        <pre><code>{
+      &quot;message&quot;: &quot;Server error ${err}&quot;
+}</code></pre>
+
+<!-------------------------------------------------------------------->
+<!---------------------------- Middlewars ---------------------------->
+<!-------------------------------------------------------------------->
+
+        <h2>verifyToken</h2>
+        <p>If this token exist in request, then he check request on valid access token in request header.</p>
+        <p
+          >If he is invalid then return <strong>unsuccessfully response</strong> body with code <strong>500</strong> will look
+          like following:</p
+        >
+        <pre><code>{
+      &quot;message&quot;: &quot;Access denied&quot;,
+}</code></pre>
+      </li>
+    </ol>
   </body></html
 >

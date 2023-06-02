@@ -6,7 +6,9 @@ const transactionController = {};
 
 transactionController.create = async function (req, res, next) {
   const { plan: plans, id: stripeId } = req.body;
-  const { created, amount, currency, client_secret } = req.body.payload.paymentIntent;
+  const { created, amount, currency, client_secret, description } = req.body.payload.paymentIntent;
+  let { couponId, amountWithoutDiscount } = JSON.parse(description);
+  !couponId && (couponId = null);
 
   try {
     await Transaction.create({
@@ -17,6 +19,8 @@ transactionController.create = async function (req, res, next) {
       stripeId,
       clientSecret: client_secret,
       purchaseTime: getGMTDate(new Date(created * 1000)),
+      couponId,
+      amountWithoutDiscount,
     });
 
     next();
@@ -26,7 +30,7 @@ transactionController.create = async function (req, res, next) {
 };
 
 transactionController.getByUser = async function (req, res) {
-  const { userId } = req.body;
+  const { id } = req.params;
 
   try {
     const transactions = await Transaction.findOne({ userId });
@@ -41,7 +45,7 @@ transactionController.getByFilter = async function (req, res) {
   const { from, to, minp: minPrice, maxp: maxPrice } = req.query;
   const plans = req.query.plans && req.query.plans.split(',');
 
-  if (!(!from || !to || !plans)) {
+  if (!(!from || !to || !plans || !minPrice || !maxPrice)) {
     return res.status(400).json({ message: 'Bad request' });
   }
 
@@ -52,7 +56,7 @@ transactionController.getByFilter = async function (req, res) {
     to && (transactions = transactions.filter((tran) => new Date(tran.purchaseTime) <= new Date(to)));
     plans && (transactions = filterByPlan(plans, transactions));
     minPrice && (transactions = transactions.filter((item) => item.amount >= minPrice));
-    maxPrice && (transactions = transactions.filter((item) => item.amount <= maxPrice));
+    maxPrice !== undefined && (transactions = transactions.filter((item) => item.amount <= maxPrice));
 
     res.status(200).json(transactions);
   } catch (err) {

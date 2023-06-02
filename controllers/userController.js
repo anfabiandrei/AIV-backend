@@ -22,16 +22,30 @@ userController.getById = async function (req, res) {
   }
 };
 
-userController.edit = async function (req, res) {
-  const { userId, nickname, email } = req.body;
+userController.getPrivateData = function (req, res) {
+  try {
+    User.findById(req.userId, (err, user) => {
+      if (err) {
+        return res.status(400).json({ message: 'User is not defined' });
+      }
 
-  if (userId !== req.userId) {
-    res.status(409).json({ message: "This isn't your account" });
-    return;
+      const { region, phone, address, city, postaleCode } = user;
+      res.status(200).json({ region, phone, address, city, postaleCode });
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
+};
+
+userController.edit = function (req, res) {
+  const { nickname, email, region, phone, address, city, postaleCode } = req.body;
+
+  // if (userId !== req.userId) {
+  //   return res.status(409).json({ message: "This isn't your account" });
+  // }
 
   try {
-    await User.findById(userId, async (err, currentUser) => {
+    User.findById(req.userId, async (err, currentUser) => {
       if (err) {
         return res.status(409).json({ message: `Server error: ${err}` });
       }
@@ -40,25 +54,31 @@ userController.edit = async function (req, res) {
         return res.status(409).json({ message: 'User is not defined' });
       }
 
+      // check on existence nickname
       if (nickname) {
         const isNameDefined = await User.findOne({ nickname });
         if (isNameDefined) {
-          res.status(409).json({ message: 'Nickname already defined' });
-          return;
+          return res.status(409).json({ message: 'Nickname already defined' });
         } else {
           currentUser.nickname = nickname;
         }
       }
 
+      // check on existence email
       if (email) {
         const isEmailDefined = await User.findOne({ email });
         if (isEmailDefined) {
-          res.status(409).json({ message: 'Email already defined' });
-          return;
+          return res.status(409).json({ message: 'Email already defined' });
         } else {
           currentUser.email = email;
         }
       }
+
+      region && (currentUser.region = region);
+      phone && (currentUser.phone = phone);
+      address && (currentUser.address = address);
+      city && (currentUser.city = city);
+      postaleCode && (currentUser.postaleCode = postaleCode);
 
       await currentUser.save();
       res.status(200).json({ message: 'User was successfully edited' });

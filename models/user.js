@@ -42,6 +42,26 @@ const user = new Schema({
       },
     },
   ],
+  region: {
+    type: Schema.Types.String,
+    default: false,
+  },
+  phone: {
+    type: Schema.Types.Number,
+    default: false,
+  },
+  address: {
+    type: Schema.Types.String,
+    default: false,
+  },
+  city: {
+    type: Schema.Types.String,
+    default: false,
+  },
+  postaleCode: {
+    type: Schema.Types.Number,
+    default: false,
+  },
 });
 
 module.exports = model('user', user);
