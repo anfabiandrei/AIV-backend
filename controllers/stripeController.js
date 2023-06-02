@@ -16,14 +16,17 @@ const calculateOrderAmount = (plan) => {
 stripeController.send = async function (req, res, next) {
   const { planForBuy, currency } = req.body;
   const amount = calculateOrderAmount(planForBuy);
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount,
-    currency,
-    metadata: { integration_check: 'accept_a_payment' },
-    description: JSON.stringify(planForBuy),
-  });
-
-  res.status(200).json({ clientSecret: paymentIntent.client_secret, paymentIntentId: paymentIntent.id });
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency,
+      metadata: { integration_check: 'accept_a_payment' },
+      description: JSON.stringify(planForBuy),
+    });
+    res.status(200).json({ clientSecret: paymentIntent.client_secret, paymentIntentId: paymentIntent.id });
+  } catch (err) {
+    res.status(500).json({ message: `Server error: ${err}` });
+  }
 };
 
 stripeController.update = async function (req, res) {

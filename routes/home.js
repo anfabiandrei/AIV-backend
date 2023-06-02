@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const payment = require('../middlewares/payments');
 
 const teamRouter = require('./team');
@@ -29,5 +30,6 @@ router.post('/notification', verifyToken, transactionController.create, notifica
 router.post('/create-payment-intent', stripeController.send);
 router.post('/update-payment-intent', stripeController.update);
 router.get('/download', payment.verifyPayment, downloadController.send);
+router.get('/', (req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'docs.html')));
 
 module.exports = router;

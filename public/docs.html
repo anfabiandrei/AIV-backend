@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="generator" content="pandoc" />
+    <title></title>
+    <style type="text/css">
+      code {
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="api-documentation">API documentation</h1>
+    <p>API Node versions: v12.16.3</p>
+    <h2 id="user-credentials">User credentials</h2>
+    <p>Please use your API credentials (username, password) to connect to the API.</p>
+    <h2 id="main-op-api">Main op API</h2>
+    <h3 id="get">GET <code>/</code></h3>
+    <p>Gets API landing page which contains this documentation.</p>
+
+    <h2>Get <code>/auth</code> requests</h2>
+    <ol>
+      <li>
+        <h3>POST <code>/login</code></h3>
+        <p>Request for user log in.</p>
+        <p><strong>Request</strong> body will look like following:</p>
+        <pre><code>{
+      &quot;email&quot;: &quot;s@s.s&quot;,
+      &quot;password&quot;: &quot;1234fFh!&quot;
+}</code></pre>
+        <p><strong>Example</strong> of the request:</p>
+        <p><a href="https://localhost:8080/api/auth/login">https://localhost:8080/api/auth/login</a></p>
+        <p><strong>Successfully response</strong> body with code <strong>200</strong> will look like following:</p>
+        <pre><code>{
+      &quot;accessToken&quot;: &quot;328478bcf0-bf9bu8dr98bd9b&quot; 
+}</code></pre>
+        <p><strong>Unsuccessfully response</strong> body with code <strong>409</strong> will look like following:</p>
+        <pre><code>{
+      &quot;message&quot;: &quot;Invalid email or password&quot;
+}</code></pre>
+        <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+        <pre><code>{
+      &quot;message&quot;: &quot;Server error ${err}&quot;
+}</code></pre>
+      </li>
+
+      <li>
+        <h3>POST <code>/register</code></h3>
+        <p>Request for user sign up.</p>
+        <p><strong>Request</strong> body will look like following:</p>
+        <pre><code>{
+    &quot;email&quot;: &quot;s@s.s&quot;,
+    &quot;password&quot;: &quot;1234fFh!&quot;,
+    &quot;firstName&quot;: &quot;Alex&quot;,
+    &quot;lastName&quot;: &quot;Green&quot;
+}</code></pre>
+        <p><strong>Example</strong> of the request:</p>
+        <p><a href="https://localhost:8080/api/auth/register">https://localhost:8080/api/auth/register</a></p>
+        <p><strong>Successfully response</strong> body with code <strong>200</strong> will look like following:</p>
+        <pre><code>{
+      &quot;accessToken&quot;: &quot;328478bcf0-bf9bu8dr98bd9b&quot; 
+}</code></pre>
+        <p
+          >If data in request body is invalid then return <strong>unsuccessfully response</strong> body with code
+          <strong>409</strong> will look like following:</p
+        >
+        <pre><code>{
+      &quot;message&quot;: &quot;Invalid data&quot;
+}</code></pre>
+        <p
+          >If nickname in request body already exist then return <strong>unsuccessfully response</strong> body with code
+          <strong>409</strong> will look like following:</p
+        >
+        <pre><code>{
+      &quot;message&quot;: &quot;Nickname already exist&quot;
+}</code></pre>
+        <p
+          >If email in request body already exist then return <strong>unsuccessfully response</strong> body with code
+          <strong>409</strong> will look like following:</p
+        >
+        <pre><code>{
+      &quot;message&quot;: &quot;Email already exist&quot;
+}</code></pre
+        ><p
+          >If sending mail return error, then return <strong>unsuccessfully response</strong> body with code
+          <strong>500</strong> will look like following:</p
+        >
+        <pre><code>{
+      &quot;message&quot;: &quot;Sent email is failed&quot;
+}</code></pre>
+        <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+        <pre><code>{
+      &quot;message&quot;: &quot;Server error ${err}&quot;
+}</code></pre>
+      </li>
+    </ol>
+
+    <h3>POST <code>/create-payment-intent</code> requests</h3>
+    <p>Request for creating stripe and saving data to DB.</p>
+    <p><strong>Request</strong> body will look like following:</p>
+    <pre><code>{
+    &quot;planForBuy&quot;: [ &quot;Legal&quot; ],
+    &quot;currency&quot;: &quot;usd&quot;
+}</code></pre>
+    <p><strong>Example</strong> of the request:</p>
+    <p
+      ><a href="https://localhost:8080/api/create-payment-intent"
+        >https://localhost:8080/api/create-payment-intent</a
+      ></p
+    >
+    <p><strong>Successfully response</strong> body with code <strong>200</strong> will look like following:</p>
+    <pre><code>{
+      &quot;clientSecret&quot;: &quot;pi_1H9rbKKsunFYlA3rxrZ62R_secret_BTA7Rv9pFmFDSD4oZiPdeIla8U&quot;,
+      &quot;paymentIntentId&quot;: &quot;pi_1H9rbKKgdrhgcfiDQr2l62R&quot;
+}</code></pre>
+  <h2>**verifyToken</h2>
+}</code></pre>
+    <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+    <pre><code>{
+      &quot;message&quot;: &quot;Server error ${err}&quot;
+}</code></pre>
+
+  <h3>POST <code>/notification</code> requests</h3>
+    <p>Request for sending notifitacion.</p>
+    <p><strong>Request</strong> body will look like following:</p>
+    <pre><code>{
+    &quot;planForBuy&quot;: [ &quot;Legal&quot; ],
+    &quot;currency&quot;: &quot;usd&quot;
+}</code></pre>
+    <p><strong>Example</strong> of the request:</p>
+    <p
+      ><a href="https://localhost:8080/api/create-payment-intent"
+        >https://localhost:8080/api/create-payment-intent</a
+      ></p
+    >
+    <p><strong>Successfully response</strong> body with code <strong>200</strong> will look like following:</p>
+    <pre><code>{ &quot;message&quot;: &quot;Success&quot; }</code></pre>
+    <h2>**verifyToken</h2>
+    <p><strong>Unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+    <pre><code>{
+      &quot;message&quot;: &quot;Server error ${err}&quot;
+}</code></pre>
+
+    <p><h2>verifyToken</h2></p>
+    <p>If this token exist in request, then he check request on valid access token in request header.</p>
+    <p>If he is invalid then <strong>unsuccessfully response</strong> body with code <strong>500</strong> will look like following:</p>
+    <pre><code>{
+      &quot;message&quot;: &quot;Access denied&quot;,
+}</code></pre>
+
+  </body></html
+>
