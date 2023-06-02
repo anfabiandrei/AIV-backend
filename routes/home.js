@@ -25,9 +25,9 @@ router.use('/plan', verifyToken, planRouter);
 router.use('/user', userRouter);
 
 router.post('/contact', verifyToken, contactController.send);
-router.post('/notification', verifyToken, notificationController.send);
-router.post('/create-payment-intent', verifyToken, stripeController.send, transactionController.create);
-router.post('/update-payment-intent', verifyToken, stripeController.update);
+router.post('/notification', verifyToken, transactionController.create, notificationController.send);
+router.post('/create-payment-intent', stripeController.send);
+router.post('/update-payment-intent', stripeController.update);
 router.get('/download', payment.verifyPayment, downloadController.send);
 
 module.exports = router;

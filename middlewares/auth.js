@@ -14,6 +14,7 @@ function verifyToken(req, res, next) {
       return res.status(401).json({ message: 'Access denied' });
     }
 
+    req.userEmail = user.email;
     req.userId = user.userId;
     next();
   });

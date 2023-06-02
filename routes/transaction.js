@@ -4,6 +4,6 @@ const router = express.Router();
 const transactionController = require('../controllers/transactionController');
 
 router.get('/get_by_id', transactionController.getByUser);
-router.get('/get', transactionController.getByDate);
+router.get('/get', transactionController.getByFilter);
 
 module.exports = router;

@@ -22,6 +22,10 @@ const transaction = new Schema({
     type: Schema.Types.Date,
     default: new Date(),
   },
+  stripeId: {
+    type: Schema.Types.String,
+    required: true,
+  },
   clientSecret: {
     type: Schema.Types.String,
     required: true,

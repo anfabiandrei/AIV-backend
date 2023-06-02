@@ -23,18 +23,7 @@ stripeController.send = async function (req, res, next) {
     description: JSON.stringify(planForBuy),
   });
 
-  req.cliendData = {
-    clientSecret: paymentIntent.client_secret,
-    paymentIntentId: paymentIntent.id,
-  };
-
-  req.dbData = {
-    currency,
-    clientSecret: paymentIntent.client_secret,
-    amount,
-  };
-
-  next();
+  res.status(200).json({ clientSecret: paymentIntent.client_secret, paymentIntentId: paymentIntent.id });
 };
 
 stripeController.update = async function (req, res) {
