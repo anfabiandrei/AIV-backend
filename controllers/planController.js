@@ -9,13 +9,13 @@ planController.get = async function (req, res) {
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
-}
+};
 
 planController.create = async function (req, res) {
   const { title, description, discount } = req.body;
 
   try {
-    const isCreated = await Plan.findOne({title});
+    const isCreated = await Plan.findOne({ title });
 
     if (isCreated) {
       res.status(409).json({ message: 'Plan already exist' });
@@ -25,7 +25,7 @@ planController.create = async function (req, res) {
     await Plan.create({
       title,
       description,
-      discount
+      discount,
     });
     res.status(201).json({ message: 'Plan was successfully added' });
   } catch (err) {
@@ -42,19 +42,23 @@ planController.changeFields = async function (req, res) {
   discount && (changes.discount = discount);
 
   try {
-    const plan = await Plan.findById(planId);
+    await Plan.findById(planId, async (err, plan) => {
+      if (err) {
+        return res.status(409).json({ message: `Server error: ${err}` });
+      }
 
-    if (!plan) {
-      res.status(404).json({ message: 'Plan is not defined' });
-    }
+      if (!plan) {
+        return res.status(409).json({ message: 'Plan is not defined' });
+      }
 
-    await plan.update({
-      ...changes
+      await plan.update({
+        ...changes,
+      });
+      res.status(200).json({ message: 'Plan was successfully changed' });
     });
-    res.status(200).json({ message: 'Plan was successfully changed' });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
-}
+};
 
 module.exports = planController;

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const blogController = require('../controllers/blogController');
-const verifyToken = require('../middleware/auth');
+const verifyToken = require('../middlewares/auth');
 
 router.get('/get', verifyToken, blogController.getAll);
 router.get('/get/:id', verifyToken, blogController.getById);

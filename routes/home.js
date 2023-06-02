@@ -9,7 +9,7 @@ const transactionRouter = require('./transaction');
 const planRouter = require('./plan');
 const userRouter = require('./user');
 
-const verifyToken = require('../middleware/auth');
+const verifyToken = require('../middlewares/auth');
 const contactController = require('../controllers/contactController');
 const stripeController = require('../controllers/stripeController');
 const notificationController = require('../controllers/notificationController');
@@ -26,8 +26,8 @@ router.use('/user', userRouter);
 
 router.post('/contact', verifyToken, contactController.send);
 router.post('/notification', verifyToken, notificationController.send);
-router.post('/create-payment-intent', stripeController.send, transactionController.create);
-router.post('/update-payment-intent', stripeController.update);
+router.post('/create-payment-intent', verifyToken, stripeController.send, transactionController.create);
+router.post('/update-payment-intent', verifyToken, stripeController.update);
 router.get('/download', payment.verifyPayment, downloadController.send);
 
 module.exports = router;

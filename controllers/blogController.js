@@ -53,29 +53,32 @@ blogController.edit = async function (req, res) {
   const { blogId, title, description, image } = req.body;
 
   try {
-    const blog = await Blog.findById(blogId);
-
-    if (!blog) {
-      res.status(404).json({ message: 'Blog is not defined' });
-      return;
-    }
-
-    if (title) {
-      const isCreated = await Blog.findOne(title);
-
-      if (isCreated) {
-        res.status(500).json({ message: 'Title already defined' });
-        return;
+    await Blog.findById(blogId, async (err, blog) => {
+      if (err) {
+        return res.status(409).json({ message: `Server error: ${err}` });
       }
-    }
 
-    title && (blog.title = title);
-    description && (blog.description = description);
-    image && (blog.image = image);
-    blog.updatedAt = new Date();
+      if (!blog) {
+        return res.status(409).json({ message: 'Blog is not defined' });
+      }
 
-    await blog.save();
-    res.status(200).json({ message: 'Blog was successfully edited' });
+      if (title) {
+        const isCreated = await Blog.findOne(title);
+
+        if (isCreated) {
+          res.status(500).json({ message: 'Title already defined' });
+          return;
+        }
+      }
+
+      title && (blog.title = title);
+      description && (blog.description = description);
+      image && (blog.image = image);
+      blog.updatedAt = new Date();
+
+      await blog.save();
+      res.status(200).json({ message: 'Blog was successfully edited' });
+    });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
@@ -96,16 +99,16 @@ blogController.post.create = async function (req, res) {
   const { blogId, postText } = req.body;
 
   try {
-    const blog = await Blog.findById(blogId);
+    await Blog.findById(blogId, async (req, blog) => {
+      if (err) {
+        res.status(404).json({ message: 'Post already exist' });
+        return;
+      }
 
-    if (!blog) {
-      res.status(404).json({ message: 'Post already exist' });
-      return;
-    }
-
-    blog.posts = [...blog.posts, { userId: req.userId, text: postText }];
-    await blog.save();
-    res.status(201).json({ message: 'Post was successfully created' });
+      blog.posts = [...blog.posts, { userId: req.userId, text: postText }];
+      await blog.save();
+      res.status(201).json({ message: 'Post was successfully created' });
+    });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
@@ -115,22 +118,25 @@ blogController.post.edit = async function (req, res) {
   const { blogId, postId, text } = req.body;
 
   try {
-    const blog = await Blog.findById(blogId);
-
-    if (!blog) {
-      res.status(404).json({ message: 'Blog is not defined' });
-      return;
-    }
-
-    blog.posts = blog.posts.map((post) => {
-      if (post._id.toString() === postId) {
-        post.text = text;
-        post.updatedAt = new Date();
+    await Blog.findById(blogId, async (err, blog) => {
+      if (err) {
+        return res.status(409).json({ message: `Server error: ${err}` });
       }
-      return post;
+
+      if (!blog) {
+        return res.status(409).json({ message: 'Blog is not defined' });
+      }
+
+      blog.posts = blog.posts.map((post) => {
+        if (post._id.toString() === postId) {
+          post.text = text;
+          post.updatedAt = new Date();
+        }
+        return post;
+      });
+      await blog.save();
+      res.status(200).json({ message: 'Post was successfully edited' });
     });
-    await blog.save();
-    res.status(200).json({ message: 'Post was successfully edited' });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }
@@ -140,16 +146,19 @@ blogController.post.delete = async function (req, res) {
   const { blogId, postId } = req.body;
 
   try {
-    const blog = await Blog.findById(blogId);
+    await Blog.findById(blogId, async (err, blog) => {
+      if (err) {
+        return res.status(409).json({ message: `Server error: ${err}` });
+      }
 
-    if (!blog) {
-      res.status(404).json({ message: 'Blog is not defined' });
-      return;
-    }
+      if (!blog) {
+        return res.status(409).json({ message: 'Blog is not defined' });
+      }
 
-    blog.posts = blog.posts.filter((post) => post._id.toString() !== postId);
-    await blog.save();
-    res.status(200).json({ message: 'Post was successfully deleted' });
+      blog.posts = blog.posts.filter((post) => post._id.toString() !== postId);
+      await blog.save();
+      res.status(200).json({ message: 'Post was successfully deleted' });
+    });
   } catch (err) {
     res.status(500).json({ message: `Server error ${err}` });
   }

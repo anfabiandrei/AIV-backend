@@ -1,8 +1,8 @@
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
-const teamController  = require('../controllers/teamController');
-const verifyToken     = require('../middleware/auth');
+const teamController = require('../controllers/teamController');
+const verifyToken = require('../middlewares/auth');
 
 router.get('/get', teamController.get);
 router.post('/create', verifyToken, teamController.create);

@@ -26,6 +26,22 @@ const user = new Schema({
     type: Schema.Types.Date,
     required: true,
   },
+  approved: {
+    type: Schema.Types.Boolean,
+    default: false,
+  },
+  emailSubmits: [
+    {
+      code: {
+        type: Schema.Types.String,
+        required: true,
+      },
+      evt: {
+        type: Schema.Types.Date,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = model('user', user);

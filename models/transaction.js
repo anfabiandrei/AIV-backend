@@ -10,11 +10,11 @@ const transaction = new Schema({
     type: [Schema.Types.String],
     default: [],
   },
-  totalPrice: {
+  amount: {
     type: Schema.Types.Number,
     required: true,
   },
-  usd: {
+  currency: {
     type: Schema.Types.String,
     required: true,
   },
